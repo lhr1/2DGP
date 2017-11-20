@@ -26,7 +26,7 @@ class Map:
     imgSTONE, imgWALL, imgHINDRANCE, imgEMPTY = None, None, None, None
     STONE, WALL, HINDRANCE, MONSTER_K, MONSTER_T, EMPTY = 0, 1, 2, 3, 4, 5
     LINEMAX = 7
-    ROWMAX = 60
+    ROWMAX = 110
 
     rowcnt = 0
     MAPSIZE = (LINEMAX - 1) * (ROWMAX - 1)
@@ -134,8 +134,8 @@ class Monster:
                 else:
                     monster_team[num].dir = 1
                     monster_team[num].movecnt = 0
-                    #if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] ==  Map.EMPTY:
-                    #    monster_team[num].dir = 0
+                    if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] !=  Map.EMPTY:
+                        monster_team[num].dir = 0
             elif monster_team[num].dir == 1:       #left
                 if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] == Map.EMPTY:
                     if map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] == Map.WALL \
@@ -151,8 +151,8 @@ class Monster:
                 else:
                     monster_team[num].dir = 0
                     monster_team[num].movecnt = 0
-                    #if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] ==  Map.EMPTY:
-                    #    monster_team[num].dir = 1
+                    if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] !=  Map.EMPTY:
+                        monster_team[num].dir = 1
 
 
     def update_t(self):
@@ -350,13 +350,9 @@ def handle_events():
                 monster_team.clear()
                 map_data.clear()
                 map_data = create_map()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
-            chimmy.__init__()
-            chimmy.state = Chimmy.DOWN_FALL
-            chimmy.pos_row = 29
-            chimmy.x, chimmy.y = position[Chimmy.pos_line * (Map.LINEMAX) + Chimmy.pos_row].x, position[Chimmy.pos_line * (Map.LINEMAX) + Chimmy.pos_row].y
-            Map.DownCnt = 29 * Map.BLOCKSIZE
-            Monster.mon_num = 0
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_PLUS:
+            if Chimmy.speed < 70:
+                Chimmy.speed += 10
         else:
             chimmy.handle_event(event)
 
@@ -470,8 +466,8 @@ def create_pos():
     for key in pos_data:
         pos = Position()
         pos.key = key
-        pos.x = 190 + (pos_data[key]['x'] * 70)
-        pos.y = 570 - (pos_data[key]['y'] * 70)
+        pos.x = 190 + (pos_data[key]['x'] * Map.BLOCKSIZE)
+        pos.y = 570 - (pos_data[key]['y'] * Map.BLOCKSIZE)
         position.append(pos)
 
     return position
