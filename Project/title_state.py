@@ -1,4 +1,5 @@
 import game_framework
+import start_state
 import main_state
 from pico2d import *
 
@@ -28,6 +29,9 @@ def enter():
     global SpaceImg
     image = load_image('resource/title.png')
     SpaceImg = CSpace()
+    if start_state.start_bgm == None:
+        start_state.start_bgm = load_music('resource/bgm/[BT21] Meet TATA.mp3')
+
 
 
 def exit():
@@ -35,6 +39,7 @@ def exit():
     global SpaceImg
     del(image)
     del(SpaceImg)
+    start_state.start_bgm.stop()
 
 
 

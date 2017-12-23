@@ -20,7 +20,9 @@ position = None
 monster_team = []
 monster = None
 chimmy_dead = False
+bb_show = False
 dragon = None
+main_bgm = None
 
 
 class Map:
@@ -77,12 +79,16 @@ class Monster:
     imgMONSTER_K, imgMONSTER_T = None, None
     mon_num = 0
     speed = 1
+    die_sound = None
 
     def __init__(self):
         if Monster.imgMONSTER_K == None:
             Monster.imgMONSTER_K = load_image('resource/monster_suki.png')
         if Monster.imgMONSTER_T == None:
             Monster.imgMONSTER_T = load_image('resource/monster_tata.png')
+        if Monster.die_sound == None:
+            Monster.die_sound = load_wav('resource/bgm/monsterdie.wav')
+            Monster.die_sound.set_volume(64)
 
         self.x = 0
         self.y = 0
@@ -130,6 +136,9 @@ class Monster:
                         if monster_team[num].movecnt == Map.BLOCKSIZE:
                             monster_team[num].pos_line += 1
                             monster_team[num].movecnt = 0
+                    elif map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line + 1] == Map.EMPTY\
+                            and map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] != Map.EMPTY:
+                        monster_team[num].dir = 0
                     else:
                         monster_team[num].dir = 1
                         monster_team[num].movecnt = 0
@@ -147,6 +156,9 @@ class Monster:
                         if monster_team[num].movecnt == Map.BLOCKSIZE:
                             monster_team[num].pos_line -= 1
                             monster_team[num].movecnt = 0
+                    elif map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] == Map.EMPTY \
+                            and map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] != Map.EMPTY:
+                        monster_team[num].dir = 1
                     else:
                         monster_team[num].dir = 0
                         monster_team[num].movecnt = 0
@@ -161,16 +173,20 @@ class Monster:
         pass
 
     def get_bb(self):
-        return self.x - (Map.BLOCKSIZE / 10), self.y - (Map.BLOCKSIZE / 2) + Map.DownCnt\
-            , self.x + (Map.BLOCKSIZE / 10), self.y + (Map.BLOCKSIZE / 2) + Map.DownCnt
+        return self.x - (Map.BLOCKSIZE / 3), self.y - (Map.BLOCKSIZE / 2) + Map.DownCnt\
+            , self.x + (Map.BLOCKSIZE / 3), self.y + (Map.BLOCKSIZE / 2) + Map.DownCnt
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
+
+    def die(self):
+        self.die_sound.play()
 
 
 
 class Dragon:
     image = []
+    fire_img = None
     ATK, FLY, SLEEP_DOWN, SLEEP_UP, WAKEUP = 0, 1, 2, 3, 4
     state = SLEEP_DOWN
     M_SLEEP, M_LEFT, M_RIGHT, M_UP, M_DOWN = 0, 1, 2, 3, 4
@@ -180,6 +196,9 @@ class Dragon:
     movecnt = 0
     staycnt = 0
     SPEED = 2
+    atk_stop = False
+
+    atk_sound = None
 
     def __init__(self):
         Dragon.image.append(load_image('resource/DRAGON/dragon_atk.png'))
@@ -187,6 +206,8 @@ class Dragon:
         Dragon.image.append(load_image('resource/DRAGON/dragon_sleep_down.png'))
         Dragon.image.append(load_image('resource/DRAGON/dragon_sleep_up.png'))
         Dragon.image.append(load_image('resource/DRAGON/dragon_wakeup.png'))
+        if Dragon.fire_img == None:
+            Dragon.fire_img = load_image('resource/DRAGON/dragon_fire.png')
         Dragon.pos_row = 3
         Dragon.pos_line = 2
         Dragon.state = Dragon.SLEEP_DOWN
@@ -196,10 +217,19 @@ class Dragon:
         self.x, self.y = position[Dragon.pos_line * (Map.LINEMAX) + Dragon.pos_row].x\
             , position[Dragon.pos_line * (Map.LINEMAX) + Dragon.pos_row].y + Map.BLOCKSIZE / 2
         self.size_x, self.size_y = 350, 180
+        self.fire_x, self.fire_y = position[0].x, self.y
+        self.size_fire_x, self.size_fire_y = 0, Map.BLOCKSIZE
+        atk_stop = False
+
+        if Dragon.atk_sound == None:
+            Dragon.atk_sound = load_wav('resource/bgm/dragonatk.wav')
+            Dragon.atk_sound.set_volume(12)
 
     def draw(self):
         if Dragon.image != None:
             Dragon.image[Dragon.state].draw(self.x, self.y, self.size_x, self.size_y)
+        if Dragon.state == Dragon.ATK:
+            Dragon.fire_img.draw(self.fire_x, self.fire_y, self.size_fire_x, self.size_fire_y)
 
 
     def update(self):
@@ -215,15 +245,19 @@ class Dragon:
             Dragon.state = Dragon.FLY
             self.size_x, self.size_y = 350, 180
             Dragon.move_state = Dragon.M_UP
-        elif Dragon.state == Dragon.FLY and Dragon.staycnt == 250:
+        elif Dragon.state == Dragon.FLY and Dragon.staycnt == 100:
             Dragon.move_state = Dragon.M_LEFT
             self.x = 800 + 180
             self.y = chimmy.y
-        elif Dragon.state == Dragon.FLY and Dragon.staycnt >= 400 and self.x == position[0].x - Map.BLOCKSIZE:
+        elif Dragon.state == Dragon.FLY and self.x == -180:
             Dragon.state = Dragon.ATK
             self.size_x, self.size_y = 235, 360
             Dragon.move_state = Dragon.M_SLEEP
+            self.x += 180 + position[0].x - Map.BLOCKSIZE
             self.y -= Map.BLOCKSIZE * 2
+        elif Dragon.state == Dragon.ATK:
+            self.fire_y = self.y + Map.BLOCKSIZE * 2
+            Dragon.move_state = Dragon.M_RIGHT
 
         Dragon.move(self)
 
@@ -235,22 +269,44 @@ class Dragon:
             if Dragon.move_state == Dragon.M_UP:
                 self.y += Dragon.SPEED
                 self.x -= Dragon.SPEED
-                if Dragon.movecnt == Map.BLOCKSIZE:
+                if Dragon.movecnt == 180:
                     Dragon.movecnt = 0
                     Dragon.move_state = Dragon.M_SLEEP
             elif Dragon.move_state == Dragon.M_DOWN:
                 self.y -= Dragon.SPEED
-                if Dragon.movecnt == Map.BLOCKSIZE:
+                if Dragon.movecnt == 180:
                     Dragon.movecnt = 0
                     Dragon.move_state = Dragon.M_SLEEP
             elif Dragon.move_state == Dragon.M_LEFT:
                 #제일 오른쪽으로 이동해서 왼쪽으로 이동
-                self.x -= Dragon.SPEED
+                self.x -= Dragon.SPEED * 4
                 if self.x < -180:
                    self.x = 800 + 180
             elif Dragon.move_state == Dragon.M_RIGHT:
-                #제일 왼쪽으로 이동해서 오른쪽으로 이동
-                self.x += Dragon.SPEED
+                Dragon.movecnt = 0
+                #불 쏘기
+                self.atk()
+                if self.size_fire_x < position[3].x:
+                    self.size_fire_x += Dragon.SPEED * 2
+                    self.fire_x += Dragon.SPEED
+                elif self.size_fire_x >= position[3].x or Dragon.atk_stop == True:
+                    self.size_fire_x = 0
+                    self.fire_x = position[0].x
+                    Dragon.state = Dragon.WAKEUP
+                    self.size_x, self.size_y = 350, 360
+                    Dragon.movecnt = 0
+                    Dragon.move_state = Dragon.M_UP
+                    Dragon.atk_stop = False
+
+    def get_bb(self):
+        return self.fire_x - (self.size_fire_x / 2) + 20, self.fire_y - (self.size_fire_y / 2) + 20\
+            , self.fire_x + (self.size_fire_x / 2) - 20, self.fire_y + (self.size_fire_y / 2) - 20
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
+
+    def atk(self):
+        self.atk_sound.play()
 
 
 
@@ -268,6 +324,9 @@ class Chimmy:
     pos_row = 3
     pos_line = 4
 
+    #sound
+    break_sound = None
+
     def __init__(self):
         self.state = Chimmy.RIGHT_STAND
         self.movecnt = 0
@@ -280,6 +339,10 @@ class Chimmy:
             Chimmy.image = load_image('resource/character2.png')
         self.frame_h = 0
         self.cnt_frame = 0
+
+        if Chimmy.break_sound == None:
+            Chimmy.break_sound = load_wav('resource/bgm/wallbreak.wav')
+            Chimmy.break_sound.set_volume(64)
 
 
     def handle_event(self, event):
@@ -302,9 +365,9 @@ class Chimmy:
                 self.cnt_frame = 0
                 self.frame = 0
                 Dragon.staycnt = 0
-                #Dragon.move_state = Dragon.M_SLEEP
                 if Dragon.state == Dragon.FLY:
                     Dragon.state = Dragon.WAKEUP
+                    Dragon.movecnt = 0
 
 
     def update(self):
@@ -313,6 +376,7 @@ class Chimmy:
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.WALL \
                     or map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.HINDRANCE:
                 map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] = Map.EMPTY
+                self.map_break()
                 self.frame_h = Chimmy.RIGHT_ATK
                 print("This is Right Wall ! \n")
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.STONE:
@@ -344,6 +408,7 @@ class Chimmy:
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.WALL \
                     or map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.HINDRANCE:
                 map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] = Map.EMPTY
+                self.map_break()
                 self.frame_h = Chimmy.LEFT_ATK
                 print("This is Left Wall ! \n")
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.STONE:
@@ -374,6 +439,7 @@ class Chimmy:
         elif self.state == self.DOWN_FALL:
             if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.WALL:
                 map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] = Map.EMPTY
+                self.map_break()
                 print("This is Down Wall ! \n")
             if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.STONE:
                 self.state = self.DOWN_STAND
@@ -402,24 +468,37 @@ class Chimmy:
                         chimmy.frame_h = Chimmy.DEAD
                         chimmy_dead = True
                         print("collide Hindrance ! \n")
-
                     self.movecnt = 0
                     self.frame = 0
-
+                Dragon.staycnt = 0
+                if Dragon.state == Dragon.ATK:
+                #Dragon.atk_stop = True
+                    dragon.size_fire_x = 0
+                    dragon.fire_x = position[0].x
+                    #Dragon.state = Dragon.FLY
+                    Dragon.state = Dragon.WAKEUP
+                    Dragon.movecnt = 0
+                    #Dragon.move_state = Dragon.M_LEFT
+                    Dragon.move_state = Dragon.M_UP
+                    #dragon.size_x, dragon.size_y = 350, 180
 
 
     def draw(self):
         self.image.clip_draw(self.frame * Chimmy.size, self.frame_h * Chimmy.size, Chimmy.size, Chimmy.size, self.x, self.y)
 
     def get_bb(self):
-        return self.x - (Map.BLOCKSIZE / 2), self.y - (Map.BLOCKSIZE / 2), self.x + (Map.BLOCKSIZE / 2), self.y + (Map.BLOCKSIZE / 2)
+        return self.x - (Map.BLOCKSIZE / 2) + 20, self.y - (Map.BLOCKSIZE / 2), self.x + (Map.BLOCKSIZE / 2) - 20, self.y + (Map.BLOCKSIZE / 2) - 10
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
+    def map_break(self):
+        self.break_sound.play()
+
 
 def enter():
     global chimmy, background, map_data, map_next_data, stage1,stage_next, position, monster, monster_team, chimmy_dead, dragon
+    global main_bgm
     Map.DownCnt = 0
     Monster.mon_num = 0
     monster_team = []
@@ -433,9 +512,13 @@ def enter():
     monster = Monster()
     dragon = Dragon()
 
+    main_bgm = load_music('resource/bgm/BTS (방탄소년단) -  Go Go (고민보다 Go) Instrumental.mp3')
+    main_bgm.set_volume(64)
+    main_bgm.repeat_play()
 
 def exit():
     global chimmy, background, map_data, stage1, position, monster_team, dragon
+    global main_bgm
     del(chimmy)
     del(background)
     del(map_data)
@@ -443,6 +526,7 @@ def exit():
     del(position)
     del(monster_team)
     del(dragon)
+    main_bgm.stop()
 
 def pause():
     pass
@@ -451,29 +535,21 @@ def resume():
     pass
 
 def handle_events():
-    global chimmy, map_data
+    global chimmy, map_data, bb_show
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_state(title_state)
-        # 게임 오버 되고 다시 시작 초기화
-        #elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
-            #if chimmy.state == Chimmy.DEAD:
-            #Map.DownCnt = 0
-            #chimmy.__init__()
-            #Monster.mon_num = 0
-            #monster_team.clear()
-            #map_data.clear()
-            #map_data = create_map()
-            #game_framework.change_state(game_over)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_PLUS:
             if Chimmy.speed < 70:
                 Chimmy.speed += 2
         elif event.type == SDL_KEYDOWN and event.key == SDLK_MINUS:
             if Chimmy.speed > 2:
                 Chimmy.speed -= 2
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_b:
+            bb_show = not bb_show
         else:
             chimmy.handle_event(event)
 
@@ -492,6 +568,7 @@ def update():
 
         # collide check
         if chimmy.state != Chimmy.DEAD:
+            #chimmy and monster
             for m in monster_team:
                 if collide(chimmy, m):
                     if chimmy.state == Chimmy.DOWN_FALL:
@@ -499,24 +576,33 @@ def update():
                         chimmy.frame_h = Chimmy.DOWN_FALL
                         monster_team.remove(m)
                         Monster.mon_num -= 1
+                        Monster.die(m)
                         print("collide Monster Die ! \n")
                     elif chimmy.state == Chimmy.LEFT_RUN or chimmy.state == Chimmy.LEFT_ATK:
                         if m.x < chimmy.x:
                             chimmy.frame_h = Chimmy.LEFT_ATK
                             monster_team.remove(m)
                             Monster.mon_num -= 1
+                            Monster.die(m)
                             print("collide Monster Die ! \n")
                     elif chimmy.state == Chimmy.RIGHT_RUN or chimmy.state == Chimmy.RIGHT_ATK:
                         if chimmy.x < m.x:
                             chimmy.frame_h = Chimmy.RIGHT_ATK
                             monster_team.remove(m)
                             Monster.mon_num -= 1
+                            Monster.die(m)
                             print("collide Monster Die ! \n")
                     else:
                         chimmy.state = Chimmy.DEAD
                         chimmy.frame_h = Chimmy.DEAD
                         chimmy_dead = True
                         print("collide ! \n")
+            #chimmy and dragon fire
+            if collide(chimmy, dragon):
+                chimmy.state = Chimmy.DEAD
+                chimmy.frame_h = Chimmy.DEAD
+                chimmy_dead = True
+                print("collide Fire ! \n")
 
 
 def draw_scene():
@@ -537,10 +623,13 @@ def draw():
     draw_scene()
 
    #  collide check box
-    #if chimmy.state != Chimmy.DEAD:
-    #    chimmy.draw_bb()
-    #for m in monster_team:
-    #    m.draw_bb()
+    if bb_show:
+        if chimmy.state != Chimmy.DEAD:
+            chimmy.draw_bb()
+        for m in monster_team:
+            m.draw_bb()
+        if Dragon.state == Dragon.ATK:
+            dragon.draw_bb()
 
     update_canvas()
 

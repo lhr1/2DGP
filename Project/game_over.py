@@ -19,8 +19,10 @@ class GameOver:
         GameOver.image.append(load_image('resource/GAMEOVER/BG_night.png'))
         GameOver.image.append(load_image('resource/GAMEOVER/BG_night1.png'))
         GameOver.image.append(load_image('resource/GAMEOVER/BG_night2.png'))
-        #GameOver.image.append(load_image('resource/GAMEOVER/BG_night3.png'))
         GameOver.image.append(load_image('resource/GAMEOVER/GameOver.png'))
+        self.bgm = load_music('resource/bgm/[BT21] Meet TATA.mp3')
+        self.bgm.set_volume(64)
+        self.bgm.repeat_play()
 
     def draw(self):
         if GameOver.image != None:
