@@ -616,7 +616,7 @@ def update():
 
 
 def draw_scene():
-    background.draw()
+    background.draw(Chimmy.pos_line)
     if not Dragon.state == Dragon.SLEEP_DOWN or Dragon.state == Dragon.SLEEP_UP or Dragon.state == Dragon.ATK:
         dragon.draw()
     stage1.draw()

@@ -20,30 +20,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="main_state.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main_state.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="190" column="0" lean-forward="true" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+            <state relative-caret-position="218">
+              <caret line="617" column="17" lean-forward="false" selection-start-line="617" selection-start-column="17" selection-end-line="617" selection-end-column="17" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#5519#8370#0" expanded="false" />
                 <element signature="e#8706#13680#0" expanded="false" />
                 <element signature="e#14687#15760#0" expanded="false" />
-                <element signature="e#26636#27839#0" expanded="false" />
-                <element signature="e#27864#28231#0" expanded="false" />
-                <element signature="e#28299#28634#0" expanded="false" />
-                <element signature="e#28660#28928#0" expanded="false" />
+                <element signature="e#26651#27854#0" expanded="false" />
+                <element signature="e#27879#28246#0" expanded="false" />
+                <element signature="e#28314#28649#0" expanded="false" />
+                <element signature="e#28675#28943#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stage1.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stage1.txt">
+      <file leaf-file-name="BackGround.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BackGround.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="29" lean-forward="false" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
+            <state relative-caret-position="126">
+              <caret line="9" column="38" lean-forward="true" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -64,8 +64,8 @@
       <file leaf-file-name="stage2.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stage2.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="62" column="41" lean-forward="true" selection-start-line="62" selection-start-column="41" selection-end-line="62" selection-end-column="41" />
+            <state relative-caret-position="180">
+              <caret line="10" column="41" lean-forward="true" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -107,7 +107,6 @@
         <option value="$PROJECT_DIR$/position.txt" />
         <option value="$PROJECT_DIR$/stage_next.txt" />
         <option value="$PROJECT_DIR$/position2.txt" />
-        <option value="$PROJECT_DIR$/BackGround.py" />
         <option value="$PROJECT_DIR$/dragon.py" />
         <option value="$PROJECT_DIR$/title_state.py" />
         <option value="$PROJECT_DIR$/game_over.py" />
@@ -116,6 +115,7 @@
         <option value="$PROJECT_DIR$/stage1.txt" />
         <option value="$PROJECT_DIR$/stage2.txt" />
         <option value="$PROJECT_DIR$/main_state.py" />
+        <option value="$PROJECT_DIR$/BackGround.py" />
       </list>
     </option>
   </component>
@@ -158,6 +158,12 @@
               <item name="Project" type="462c0819:PsiDirectoryNode" />
               <item name="resource" type="462c0819:PsiDirectoryNode" />
               <item name="bgm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Project" type="462c0819:PsiDirectoryNode" />
+              <item name="resource" type="462c0819:PsiDirectoryNode" />
+              <item name="GAMEOVER" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -307,41 +313,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/crt.png" />
-    <entry file="file://$PROJECT_DIR$/main_state.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1476">
-          <caret line="89" column="18" lean-forward="false" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#5519#8370#0" expanded="false" />
-            <element signature="e#8706#13680#0" expanded="false" />
-            <element signature="e#14687#15760#0" expanded="false" />
-            <element signature="e#26636#27839#0" expanded="false" />
-            <element signature="e#27864#28231#0" expanded="false" />
-            <element signature="e#28299#28634#0" expanded="false" />
-            <element signature="e#28660#28928#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mygame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="7" column="29" lean-forward="false" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/show_files.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/game_framework.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -366,10 +337,10 @@
             <element signature="e#5519#8370#0" expanded="false" />
             <element signature="e#8706#13680#0" expanded="false" />
             <element signature="e#14687#15760#0" expanded="false" />
-            <element signature="e#26636#27839#0" expanded="false" />
-            <element signature="e#27864#28231#0" expanded="false" />
-            <element signature="e#28299#28634#0" expanded="false" />
-            <element signature="e#28660#28928#0" expanded="false" />
+            <element signature="e#26651#27854#0" expanded="false" />
+            <element signature="e#27879#28246#0" expanded="false" />
+            <element signature="e#28314#28649#0" expanded="false" />
+            <element signature="e#28675#28943#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -487,13 +458,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BackGround.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="4" column="17" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dragon.py" />
     <entry file="file://$PROJECT_DIR$/resource/DRAGON/dragon_sleep.png">
       <provider selected="true" editor-type-id="images">
@@ -528,20 +492,12 @@
       </provider>
     </entry>
     <entry file="file://D:/lhr1/2DGP/Project/2016182032.txt" />
-    <entry file="file://$PROJECT_DIR$/game_over.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/title_state.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="32" column="77" lean-forward="false" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="77" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -572,36 +528,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/stage1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="29" lean-forward="false" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stage2.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="62" column="41" lean-forward="true" selection-start-line="62" selection-start-column="41" selection-end-line="62" selection-end-column="41" />
-          <folding />
-        </state>
+    <entry file="file://$PROJECT_DIR$/resource/BG_day2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="190" column="0" lean-forward="true" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+        <state relative-caret-position="218">
+          <caret line="617" column="17" lean-forward="false" selection-start-line="617" selection-start-column="17" selection-end-line="617" selection-end-column="17" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#5519#8370#0" expanded="false" />
             <element signature="e#8706#13680#0" expanded="false" />
             <element signature="e#14687#15760#0" expanded="false" />
-            <element signature="e#26636#27839#0" expanded="false" />
-            <element signature="e#27864#28231#0" expanded="false" />
-            <element signature="e#28299#28634#0" expanded="false" />
-            <element signature="e#28660#28928#0" expanded="false" />
+            <element signature="e#26651#27854#0" expanded="false" />
+            <element signature="e#27879#28246#0" expanded="false" />
+            <element signature="e#28314#28649#0" expanded="false" />
+            <element signature="e#28675#28943#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stage1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="10" column="41" lean-forward="false" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game_over.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/GAMEOVER/BG_night.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/GAMEOVER/BG_night2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/GAMEOVER/BG_night1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stage2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="41" lean-forward="true" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BackGround.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="9" column="38" lean-forward="true" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
