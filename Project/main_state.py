@@ -127,50 +127,59 @@ class Monster:
 
     def update_k(self):
         for num in range(Monster.mon_num):
-            if monster_team[num].dir == 0:       #right
-                if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] ==  Map.EMPTY:
-                    if map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line + 1] == Map.WALL \
-                        or map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line + 1] == Map.STONE:
-                        monster_team[num].x = min(position[monster_team[num].pos_line + 1].x, monster_team[num].x + Monster.speed)
-                        monster_team[num].movecnt = monster_team[num].movecnt + Monster.speed
-                        if monster_team[num].movecnt == Map.BLOCKSIZE:
-                            monster_team[num].pos_line += 1
-                            monster_team[num].movecnt = 0
-                    elif map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line + 1] == Map.EMPTY\
-                            and map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] != Map.EMPTY:
-                        monster_team[num].dir = 0
-                    else:
-                        monster_team[num].dir = 1
-                        monster_team[num].movecnt = 0
-                else:
-                    monster_team[num].dir = 1
-                    monster_team[num].movecnt = 0
-                    if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] !=  Map.EMPTY:
-                        monster_team[num].dir = 0
-            elif monster_team[num].dir == 1:       #left
-                if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] == Map.EMPTY:
-                    if map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] == Map.WALL \
-                        or map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] ==  Map.STONE:
-                        monster_team[num].x = max(position[monster_team[num].pos_line - 1].x, monster_team[num].x - Monster.speed)
-                        monster_team[num].movecnt = monster_team[num].movecnt + Monster.speed
-                        if monster_team[num].movecnt == Map.BLOCKSIZE:
-                            monster_team[num].pos_line -= 1
-                            monster_team[num].movecnt = 0
-                    elif map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] == Map.EMPTY \
-                            and map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] != Map.EMPTY:
-                        monster_team[num].dir = 1
-                    else:
-                        monster_team[num].dir = 0
-                        monster_team[num].movecnt = 0
-                else:
-                    monster_team[num].dir = 0
-                    monster_team[num].movecnt = 0
-                    if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] !=  Map.EMPTY:
-                        monster_team[num].dir = 1
+            if monster_team[num].type == Map.MONSTER_K:
+                self.move(num)
 
 
     def update_t(self):
-        pass
+        for num in range(Monster.mon_num):
+            if monster_team[num].type == Map.MONSTER_T \
+                    and monster_team[num].pos_row == Chimmy.pos_line:
+                self.move(num)
+
+
+    def move(self, num):
+        if monster_team[num].dir == 0:       #right
+            if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] ==  Map.EMPTY:
+                if map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line + 1] == Map.WALL \
+                    or map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line + 1] == Map.STONE:
+                    monster_team[num].x = min(position[monster_team[num].pos_line + 1].x, monster_team[num].x + Monster.speed)
+                    monster_team[num].movecnt = monster_team[num].movecnt + Monster.speed
+                    if monster_team[num].movecnt == Map.BLOCKSIZE:
+                        monster_team[num].pos_line += 1
+                        monster_team[num].movecnt = 0
+                elif map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line + 1] == Map.EMPTY\
+                        and map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] != Map.EMPTY:
+                    monster_team[num].dir = 0
+                else:
+                    monster_team[num].dir = 1
+                    monster_team[num].movecnt = 0
+            else:
+                monster_team[num].dir = 1
+                monster_team[num].movecnt = 0
+                if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] !=  Map.EMPTY:
+                    monster_team[num].dir = 0
+        elif monster_team[num].dir == 1:       #left
+            if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line - 1] == Map.EMPTY:
+                if map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] == Map.WALL \
+                    or map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] ==  Map.STONE:
+                    monster_team[num].x = max(position[monster_team[num].pos_line - 1].x, monster_team[num].x - Monster.speed)
+                    monster_team[num].movecnt = monster_team[num].movecnt + Monster.speed
+                    if monster_team[num].movecnt == Map.BLOCKSIZE:
+                        monster_team[num].pos_line -= 1
+                        monster_team[num].movecnt = 0
+                elif map_data[monster_team[num].pos_row + 1].state[monster_team[num].pos_line - 1] == Map.EMPTY \
+                        and map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] != Map.EMPTY:
+                    monster_team[num].dir = 1
+                else:
+                    monster_team[num].dir = 0
+                    monster_team[num].movecnt = 0
+            else:
+                monster_team[num].dir = 0
+                monster_team[num].movecnt = 0
+                if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] !=  Map.EMPTY:
+                    monster_team[num].dir = 1
+
 
     def get_bb(self):
         return self.x - (Map.BLOCKSIZE / 3), self.y - (Map.BLOCKSIZE / 2) + Map.DownCnt\
@@ -178,6 +187,7 @@ class Monster:
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
+
 
     def die(self):
         self.die_sound.play()
