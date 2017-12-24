@@ -11,8 +11,9 @@ import game_framework
 
 import start_state
 import main_state
+import game_clear
 import game_over
 
 open_canvas()
-game_framework.run(start_state)
+game_framework.run(game_clear)
 close_canvas()

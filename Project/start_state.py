@@ -12,7 +12,7 @@ start_bgm = None
 def enter():
     global image, start_bgm
     image = load_image('resource/start_img.png')
-    start_bgm = load_music('resource/bgm/[BT21] Meet TATA.mp3')
+    start_bgm = load_music('resource/bgm/Meet TATA.mp3')
     start_bgm.set_volume(64)
     start_bgm.repeat_play()
 
