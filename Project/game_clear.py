@@ -1,5 +1,6 @@
 import game_framework
 import start_state
+import main_state
 from pico2d import *
 
 
@@ -21,7 +22,6 @@ class GameClear:
         GameClear.image.append(load_image('resource/GAMECLEAR/BG_clear2.png'))
         GameClear.image.append(load_image('resource/GAMECLEAR/BG_clear3.png'))
         GameClear.image.append(load_image('resource/GAMECLEAR/BG_clear4.png'))
-        #GameClear.image.append(load_image('resource/GAMECLEAR/BG_clear5.png'))
         GameClear.image.append(load_image('resource/GAMECLEAR/BG_clear6.png'))
 
         self.bgm = load_music('resource/bgm/gameclear.mp3')
@@ -91,6 +91,8 @@ def draw():
     GameClearImg.draw()
     if GameClear.state == GameClear.Space:
         SpaceImg.draw()
+    main_state.Chimmy.score_font.draw(10, 560, 'score', (255, 255, 255))
+    main_state.Chimmy.score_font.draw(10, 520, '%d' % main_state.Chimmy.score, (255, 255, 255))
     update_canvas()
 
 

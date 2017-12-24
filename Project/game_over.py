@@ -87,6 +87,8 @@ def draw():
     GameOverImg.draw()
     if GameOver.state == GameOver.Space:
         SpaceImg.draw()
+    main_state.Chimmy.score_font.draw(10, 560, 'score', (255, 255, 255))
+    main_state.Chimmy.score_font.draw(10, 520, '%d' % main_state.Chimmy.score, (255, 255, 255))
     update_canvas()
 
 

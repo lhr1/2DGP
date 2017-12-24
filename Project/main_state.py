@@ -346,6 +346,10 @@ class Chimmy:
     #sound
     break_sound = None
 
+    #font
+    score_font = None
+    score = 0
+
     def __init__(self):
         self.state = Chimmy.RIGHT_STAND
         self.movecnt = 0
@@ -363,6 +367,9 @@ class Chimmy:
             Chimmy.break_sound = load_wav('resource/bgm/wallbreak.wav')
             Chimmy.break_sound.set_volume(64)
 
+        if Chimmy.score_font == None:
+            Chimmy.score_font = load_font('resource/font/Blox2.ttf', 36)
+        Chimmy.score = 0
 
     def handle_event(self, event):
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LEFT):
@@ -395,8 +402,9 @@ class Chimmy:
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.WALL \
                     or map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.HINDRANCE:
                 map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] = Map.EMPTY
-                self.map_break()
                 self.frame_h = Chimmy.RIGHT_ATK
+                self.map_break()
+                Chimmy.score += 1
                 print("This is Right Wall ! \n")
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.STONE:
                 self.state = self.RIGHT_STAND
@@ -427,8 +435,9 @@ class Chimmy:
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.WALL \
                     or map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.HINDRANCE:
                 map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] = Map.EMPTY
-                self.map_break()
                 self.frame_h = Chimmy.LEFT_ATK
+                self.map_break()
+                Chimmy.score += 1
                 print("This is Left Wall ! \n")
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.STONE:
                 self.state = self.LEFT_STAND
@@ -459,6 +468,7 @@ class Chimmy:
             if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.WALL:
                 map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] = Map.EMPTY
                 self.map_break()
+                Chimmy.score += 1
                 print("This is Down Wall ! \n")
             if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.STONE:
                 self.state = self.DOWN_STAND
@@ -502,6 +512,8 @@ class Chimmy:
 
     def draw(self):
         self.image.clip_draw(self.frame * Chimmy.size, self.frame_h * Chimmy.size, Chimmy.size, Chimmy.size, self.x, self.y)
+        Chimmy.score_font.draw(10, 560, 'score', (255, 255, 255))
+        Chimmy.score_font.draw(10, 520, '%d' % Chimmy.score, (255, 255, 255))
 
     def get_bb(self):
         return self.x - (Map.BLOCKSIZE / 2) + 20, self.y - (Map.BLOCKSIZE / 2), self.x + (Map.BLOCKSIZE / 2) - 20, self.y + (Map.BLOCKSIZE / 2) - 10
@@ -597,6 +609,7 @@ def update():
                         monster_team.remove(m)
                         Monster.mon_num -= 1
                         Monster.die(m)
+                        Chimmy.score += 5
                         print("collide Monster Die ! \n")
                     elif chimmy.state == Chimmy.LEFT_RUN or chimmy.state == Chimmy.LEFT_ATK:
                         if m.x < chimmy.x:
@@ -604,6 +617,7 @@ def update():
                             monster_team.remove(m)
                             Monster.mon_num -= 1
                             Monster.die(m)
+                            Chimmy.score += 5
                             print("collide Monster Die ! \n")
                     elif chimmy.state == Chimmy.RIGHT_RUN or chimmy.state == Chimmy.RIGHT_ATK:
                         if chimmy.x < m.x:
@@ -611,6 +625,7 @@ def update():
                             monster_team.remove(m)
                             Monster.mon_num -= 1
                             Monster.die(m)
+                            Chimmy.score += 5
                             print("collide Monster Die ! \n")
                     else:
                         chimmy.state = Chimmy.DEAD
