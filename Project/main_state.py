@@ -5,6 +5,7 @@ from pico2d import *
 
 import game_framework
 import title_state
+import game_clear
 import game_over
 from BackGround import BackGround
 from Position import Position
@@ -23,12 +24,13 @@ chimmy_dead = False
 bb_show = False
 dragon = None
 main_bgm = None
+clear  = False
 
 
 class Map:
     global map_data, map_next_data, stage1, stage_next, position, monster_team
-    imgSTONE, imgWALL, imgHINDRANCE, imgEMPTY = None, None, None, None
-    STONE, WALL, HINDRANCE, MONSTER_K, MONSTER_T, EMPTY = 0, 1, 2, 3, 4, 5
+    imgSTONE, imgWALL, imgHINDRANCE, imgEMPTY, imgCLEAR = None, None, None, None, None
+    STONE, WALL, HINDRANCE, MONSTER_K, MONSTER_T, EMPTY, CLEAR = 0, 1, 2, 3, 4, 5, 6
     LINEMAX = 7
     ROWMAX = 110
 
@@ -47,6 +49,8 @@ class Map:
             Map.imgHINDRANCE = load_image('resource/hindrance.png')
         if Map.imgEMPTY == None:
             Map.imgEMPTY = load_image('resource/empty2.png')
+        if Map.imgCLEAR == None:
+            Map.imgCLEAR = load_image('resource/clear_tile.png')
         self.row = []
         self.state = []
         self.randnum = []
@@ -68,6 +72,8 @@ class Map:
                     elif map_data[row].state[line] == Map.MONSTER_K or map_data[row].state[line] == Map.MONSTER_T or map_data[row].state[line] == Map.EMPTY:
                         map_data[row].state[line] = Map.EMPTY
                         self.imgEMPTY.clip_draw(map_data[row].randnum[line]*80, 0, Map.BLOCKSIZE, Map.BLOCKSIZE, position[self.MapPos].x, position[self.MapPos].y+ Map.DownCnt)
+                    elif map_data[row].state[line] == Map.CLEAR:
+                        self.imgCLEAR.clip_draw(0, 0, Map.BLOCKSIZE, Map.BLOCKSIZE, position[self.MapPos].x, position[self.MapPos].y + Map.DownCnt)
 
 
     def update(self):
@@ -381,7 +387,7 @@ class Chimmy:
 
 
     def update(self):
-        global chimmy_dead
+        global chimmy_dead, clear
         if self.state == self.RIGHT_RUN:
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.WALL \
                     or map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.HINDRANCE:
@@ -409,6 +415,10 @@ class Chimmy:
                     if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.EMPTY:
                         self.state = Chimmy.DOWN_FALL
                         self.frame_h = Chimmy.DOWN_FALL
+                        Dragon.staycnt = 0
+                        if Dragon.state == Dragon.FLY:
+                            Dragon.state = Dragon.WAKEUP
+                            Dragon.movecnt = 0
                     elif map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.HINDRANCE:
                         chimmy.state = Chimmy.DEAD
                         chimmy.frame_h = Chimmy.DEAD
@@ -441,6 +451,10 @@ class Chimmy:
                     if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.EMPTY:
                         self.state = Chimmy.DOWN_FALL
                         self.frame_h = Chimmy.DOWN_FALL
+                        Dragon.staycnt = 0
+                        if Dragon.state == Dragon.FLY:
+                            Dragon.state = Dragon.WAKEUP
+                            Dragon.movecnt = 0
                     elif map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.HINDRANCE:
                         chimmy.state = Chimmy.DEAD
                         chimmy.frame_h = Chimmy.DEAD
@@ -480,6 +494,8 @@ class Chimmy:
                         print("collide Hindrance ! \n")
                     self.movecnt = 0
                     self.frame = 0
+                if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.CLEAR:
+                    clear = True
                 Dragon.staycnt = 0
                 if Dragon.state == Dragon.ATK:
                 #Dragon.atk_stop = True
@@ -508,11 +524,12 @@ class Chimmy:
 
 def enter():
     global chimmy, background, map_data, map_next_data, stage1,stage_next, position, monster, monster_team, chimmy_dead, dragon
-    global main_bgm
+    global main_bgm, clear
     Map.DownCnt = 0
     Monster.mon_num = 0
     monster_team = []
     chimmy_dead = False
+    clear = False
 
     background = BackGround()
     position = create_pos()
@@ -565,9 +582,11 @@ def handle_events():
 
 
 def update():
-    global chimmy_dead
+    global chimmy_dead, clear
 
-    if chimmy_dead:
+    if clear == True:
+        game_framework.change_state(game_clear)
+    elif chimmy_dead:
         game_framework.change_state(game_over)
     else:
         chimmy.update()
@@ -615,6 +634,7 @@ def update():
                 print("collide Fire ! \n")
 
 
+
 def draw_scene():
     background.draw(Chimmy.pos_line)
     if not Dragon.state == Dragon.SLEEP_DOWN or Dragon.state == Dragon.SLEEP_UP or Dragon.state == Dragon.ATK:
@@ -654,6 +674,7 @@ def create_map():
         "K": Map.MONSTER_K,
         "T": Map.MONSTER_T,
         "E": Map.EMPTY,
+        "C": Map.CLEAR,
         "N": None
     }
 
