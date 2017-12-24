@@ -261,6 +261,7 @@ class Dragon:
             Dragon.state = Dragon.FLY
             self.size_x, self.size_y = 350, 180
             Dragon.move_state = Dragon.M_UP
+            #self.x = 800 + 180
         elif Dragon.state == Dragon.FLY and Dragon.staycnt == 100:
             Dragon.move_state = Dragon.M_LEFT
             self.x = 800 + 180
@@ -270,7 +271,8 @@ class Dragon:
             self.size_x, self.size_y = 235, 360
             Dragon.move_state = Dragon.M_SLEEP
             self.x += 180 + position[0].x - Map.BLOCKSIZE
-            self.y -= Map.BLOCKSIZE * 2
+            #self.y -= Map.BLOCKSIZE * 2
+            self.y = chimmy.y - Map.BLOCKSIZE * 2
         elif Dragon.state == Dragon.ATK:
             self.fire_y = self.y + Map.BLOCKSIZE * 2
             Dragon.move_state = Dragon.M_RIGHT
@@ -285,6 +287,7 @@ class Dragon:
             if Dragon.move_state == Dragon.M_UP:
                 self.y += Dragon.SPEED
                 self.x -= Dragon.SPEED
+                self.x = 800 + 180
                 if Dragon.movecnt == 180:
                     Dragon.movecnt = 0
                     Dragon.move_state = Dragon.M_SLEEP
@@ -305,14 +308,14 @@ class Dragon:
                 if self.size_fire_x < position[3].x:
                     self.size_fire_x += Dragon.SPEED * 2
                     self.fire_x += Dragon.SPEED
-                elif self.size_fire_x >= position[3].x or Dragon.atk_stop == True:
+                elif self.size_fire_x >= position[3].x:
                     self.size_fire_x = 0
                     self.fire_x = position[0].x
                     Dragon.state = Dragon.WAKEUP
                     self.size_x, self.size_y = 350, 360
                     Dragon.movecnt = 0
                     Dragon.move_state = Dragon.M_UP
-                    Dragon.atk_stop = False
+                    self.x = 800 + 180
 
     def get_bb(self):
         return self.fire_x - (self.size_fire_x / 2) + 20, self.fire_y - (self.size_fire_y / 2) + 20\
@@ -415,10 +418,6 @@ class Chimmy:
                     if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.EMPTY:
                         self.state = Chimmy.DOWN_FALL
                         self.frame_h = Chimmy.DOWN_FALL
-                        Dragon.staycnt = 0
-                        if Dragon.state == Dragon.FLY:
-                            Dragon.state = Dragon.WAKEUP
-                            Dragon.movecnt = 0
                     elif map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.HINDRANCE:
                         chimmy.state = Chimmy.DEAD
                         chimmy.frame_h = Chimmy.DEAD
@@ -451,10 +450,6 @@ class Chimmy:
                     if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.EMPTY:
                         self.state = Chimmy.DOWN_FALL
                         self.frame_h = Chimmy.DOWN_FALL
-                        Dragon.staycnt = 0
-                        if Dragon.state == Dragon.FLY:
-                            Dragon.state = Dragon.WAKEUP
-                            Dragon.movecnt = 0
                     elif map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.HINDRANCE:
                         chimmy.state = Chimmy.DEAD
                         chimmy.frame_h = Chimmy.DEAD
@@ -498,16 +493,12 @@ class Chimmy:
                     clear = True
                 Dragon.staycnt = 0
                 if Dragon.state == Dragon.ATK:
-                #Dragon.atk_stop = True
                     dragon.size_fire_x = 0
                     dragon.fire_x = position[0].x
-                    #Dragon.state = Dragon.FLY
                     Dragon.state = Dragon.WAKEUP
                     Dragon.movecnt = 0
-                    #Dragon.move_state = Dragon.M_LEFT
                     Dragon.move_state = Dragon.M_UP
-                    #dragon.size_x, dragon.size_y = 350, 180
-
+                    #dragon.x = 800 + 180
 
     def draw(self):
         self.image.clip_draw(self.frame * Chimmy.size, self.frame_h * Chimmy.size, Chimmy.size, Chimmy.size, self.x, self.y)

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="563" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="328" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="554" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="331" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="29" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="82" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="583" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="574" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="133" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="202" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="388" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="497" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="391" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="492" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85aca63a-95ed-4132-a6e4-161181b696a4" name="Default" comment="" />
@@ -25,15 +25,16 @@
       <file leaf-file-name="main_state.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="57" column="19" lean-forward="true" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
+            <state relative-caret-position="286">
+              <caret line="290" column="41" lean-forward="true" selection-start-line="290" selection-start-column="41" selection-end-line="290" selection-end-column="41" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#429#3216#0" expanded="false" />
+                <element signature="e#3238#9054#0" expanded="false" />
                 <element signature="e#5889#8740#0" expanded="false" />
-                <element signature="e#9076#14050#0" expanded="false" />
-                <element signature="e#28869#29236#0" expanded="false" />
-                <element signature="e#29304#29639#0" expanded="false" />
-                <element signature="e#29665#29933#0" expanded="false" />
+                <element signature="e#28389#28756#0" expanded="false" />
+                <element signature="e#28824#29159#0" expanded="false" />
+                <element signature="e#29185#29453#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -129,8 +130,8 @@
         <option value="$PROJECT_DIR$/game_clear.py" />
         <option value="$PROJECT_DIR$/stage2.txt" />
         <option value="$PROJECT_DIR$/mygame.py" />
-        <option value="$PROJECT_DIR$/main_state.py" />
         <option value="$PROJECT_DIR$/stage1.txt" />
+        <option value="$PROJECT_DIR$/main_state.py" />
       </list>
     </option>
   </component>
@@ -342,11 +343,12 @@
           <caret line="89" column="18" lean-forward="true" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#429#3216#0" expanded="false" />
+            <element signature="e#3238#9054#0" expanded="false" />
             <element signature="e#5889#8740#0" expanded="false" />
-            <element signature="e#9076#14050#0" expanded="false" />
-            <element signature="e#28869#29236#0" expanded="false" />
-            <element signature="e#29304#29639#0" expanded="false" />
-            <element signature="e#29665#29933#0" expanded="false" />
+            <element signature="e#28389#28756#0" expanded="false" />
+            <element signature="e#28824#29159#0" expanded="false" />
+            <element signature="e#29185#29453#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -540,6 +542,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="13" column="14" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -589,15 +592,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="57" column="19" lean-forward="true" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
+        <state relative-caret-position="286">
+          <caret line="290" column="41" lean-forward="true" selection-start-line="290" selection-start-column="41" selection-end-line="290" selection-end-column="41" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#429#3216#0" expanded="false" />
+            <element signature="e#3238#9054#0" expanded="false" />
             <element signature="e#5889#8740#0" expanded="false" />
-            <element signature="e#9076#14050#0" expanded="false" />
-            <element signature="e#28869#29236#0" expanded="false" />
-            <element signature="e#29304#29639#0" expanded="false" />
-            <element signature="e#29665#29933#0" expanded="false" />
+            <element signature="e#28389#28756#0" expanded="false" />
+            <element signature="e#28824#29159#0" expanded="false" />
+            <element signature="e#29185#29453#0" expanded="false" />
           </folding>
         </state>
       </provider>
