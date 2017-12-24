@@ -522,7 +522,7 @@ def enter():
     monster = Monster()
     dragon = Dragon()
 
-    main_bgm = load_music('resource/bgm/BTS (방탄소년단) -  Go Go (고민보다 Go) Instrumental.mp3')
+    main_bgm = load_music('resource/bgm/Go Go.mp3')
     main_bgm.set_volume(64)
     main_bgm.repeat_play()
 

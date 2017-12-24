@@ -14,5 +14,5 @@ import main_state
 import game_over
 
 open_canvas()
-game_framework.run(main_state)
+game_framework.run(start_state)
 close_canvas()
