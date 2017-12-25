@@ -204,7 +204,7 @@ class FireWall:
     global map_data, firewall_team, position
     imgFIREWALL, imgFIRE = None, None
     firewall_num = 0
-    SPEED = 4
+    SPEED = 2
     FIRE_SIZE = 60
 
     def __init__(self):
@@ -227,7 +227,7 @@ class FireWall:
             if firewall_team[num].fire_cnt == 0:
                 firewall_team[num].fire_x = firewall_team[num].x - (Map.BLOCKSIZE / 2)
                 firewall_team[num].fire_show = False
-            elif 200 < firewall_team[num].fire_cnt:
+            elif 450 < firewall_team[num].fire_cnt:
                 firewall_team[num].fire_show = True
             firewall_team[num].fire_cnt += firewall_team[num].fire_speed
             if firewall_team[num].fire_show == True:
@@ -246,10 +246,8 @@ class FireWall:
 
 
     def get_bb(self):
-        #return self.x - (Map.BLOCKSIZE / 2), self.y - (Map.BLOCKSIZE / 2)\
-        #     , self.x + (Map.BLOCKSIZE / 2), self.y + (Map.BLOCKSIZE / 2)
-        return self.fire_x - (FireWall.FIRE_SIZE / 2), self.fire_y - (FireWall.FIRE_SIZE / 3) \
-            , self.fire_x + (FireWall.FIRE_SIZE / 2), self.fire_y + (FireWall.FIRE_SIZE / 3)
+        return self.fire_x - (FireWall.FIRE_SIZE / 3), self.fire_y - (FireWall.FIRE_SIZE / 4) \
+            , self.fire_x + (FireWall.FIRE_SIZE / 3), self.fire_y + (FireWall.FIRE_SIZE / 4)
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
@@ -459,7 +457,8 @@ class Chimmy:
                 self.map_break()
                 Chimmy.score += 1
                 print("This is Right Wall ! \n")
-            if map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.STONE:
+            if map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.STONE \
+                    or map_data[Chimmy.pos_line].state[Chimmy.pos_row + 1] == Map.FIREWALL:
                 self.state = self.RIGHT_STAND
                 print("This is Right Stone ! \n")
             else:
@@ -492,7 +491,8 @@ class Chimmy:
                 self.map_break()
                 Chimmy.score += 1
                 print("This is Left Wall ! \n")
-            if map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.STONE:
+            if map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.STONE \
+                    or map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.FIREWALL:
                 self.state = self.LEFT_STAND
                 print("This is Left Block ! \n")
             else:
@@ -523,7 +523,8 @@ class Chimmy:
                 self.map_break()
                 Chimmy.score += 1
                 print("This is Down Wall ! \n")
-            if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.STONE:
+            if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.STONE \
+                    or map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.FIREWALL:
                 self.state = self.DOWN_STAND
                 print("This is Down Stone ! \n")
             else:
