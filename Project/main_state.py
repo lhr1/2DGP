@@ -16,6 +16,7 @@ name = "MainState"
 background = None
 bb_show = False
 main_bgm = None
+cheat = False
 #chimmy
 chimmy = None
 chimmy_dead = False
@@ -381,7 +382,7 @@ class Dragon:
 
 
 class Chimmy:
-    global position
+    global position, cheat
     image = None
     LEFT_RUN, RIGHT_RUN, LEFT_ATK, RIGHT_ATK, DOWN_FALL, LEFT_STAND, RIGHT_STAND, DOWN_STAND, DEAD = 0, 1, 2, 3, 4, 5, 6, 7, 8
 
@@ -400,6 +401,8 @@ class Chimmy:
     #font
     score_font = None
     score = 0
+    cheat_font = None
+
 
     def __init__(self):
         self.state = Chimmy.RIGHT_STAND
@@ -417,10 +420,11 @@ class Chimmy:
         if Chimmy.break_sound == None:
             Chimmy.break_sound = load_wav('resource/bgm/wallbreak.wav')
             Chimmy.break_sound.set_volume(64)
-
+        Chimmy.score = 0
         if Chimmy.score_font == None:
             Chimmy.score_font = load_font('resource/font/Blox2.ttf', 36)
-        Chimmy.score = 0
+        if Chimmy.cheat_font == None:
+            Chimmy.cheat_font = load_font('resource/font/Blox2.ttf', 36)
 
     def handle_event(self, event):
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_LEFT):
@@ -479,10 +483,11 @@ class Chimmy:
                         self.state = Chimmy.DOWN_FALL
                         self.frame_h = Chimmy.DOWN_FALL
                     elif map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.HINDRANCE:
-                        chimmy.state = Chimmy.DEAD
-                        chimmy.frame_h = Chimmy.DEAD
-                        chimmy_dead = True
-                        print("collide Hindrance ! \n")
+                        if cheat == False:
+                            chimmy.state = Chimmy.DEAD
+                            chimmy.frame_h = Chimmy.DEAD
+                            chimmy_dead = True
+                            print("collide Hindrance ! \n")
         elif self.state == self.LEFT_RUN:
             if map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.WALL \
                     or map_data[Chimmy.pos_line].state[Chimmy.pos_row - 1] == Map.HINDRANCE:
@@ -513,10 +518,11 @@ class Chimmy:
                         self.state = Chimmy.DOWN_FALL
                         self.frame_h = Chimmy.DOWN_FALL
                     elif map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.HINDRANCE:
-                        chimmy.state = Chimmy.DEAD
-                        chimmy.frame_h = Chimmy.DEAD
-                        chimmy_dead = True
-                        print("collide Hindrance ! \n")
+                        if cheat == False:
+                            chimmy.state = Chimmy.DEAD
+                            chimmy.frame_h = Chimmy.DEAD
+                            chimmy_dead = True
+                            print("collide Hindrance ! \n")
         elif self.state == self.DOWN_FALL:
             if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.WALL:
                 map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] = Map.EMPTY
@@ -547,10 +553,11 @@ class Chimmy:
                             and map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] != Map.HINDRANCE:
                         self.state = self.DOWN_STAND
                     elif map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.HINDRANCE:
-                        chimmy.state = Chimmy.DEAD
-                        chimmy.frame_h = Chimmy.DEAD
-                        chimmy_dead = True
-                        print("collide Hindrance ! \n")
+                        if cheat == False:
+                            chimmy.state = Chimmy.DEAD
+                            chimmy.frame_h = Chimmy.DEAD
+                            chimmy_dead = True
+                            print("collide Hindrance ! \n")
                     self.movecnt = 0
                     self.frame = 0
                 if map_data[Chimmy.pos_line + 1].state[Chimmy.pos_row] == Map.CLEAR:
@@ -568,6 +575,8 @@ class Chimmy:
         self.image.clip_draw(self.frame * Chimmy.size, self.frame_h * Chimmy.size, Chimmy.size, Chimmy.size, self.x, self.y)
         Chimmy.score_font.draw(10, 560, 'score', (255, 255, 255))
         Chimmy.score_font.draw(10, 520, '%d' % Chimmy.score, (255, 255, 255))
+        if cheat == True:
+            Chimmy.cheat_font.draw(700, 560, 'CHEAT', (200, 50, 50))
 
     def get_bb(self):
         return self.x - (Map.BLOCKSIZE / 2) + 20, self.y - (Map.BLOCKSIZE / 2), self.x + (Map.BLOCKSIZE / 2) - 20, self.y + (Map.BLOCKSIZE / 2) - 10
@@ -581,7 +590,7 @@ class Chimmy:
 
 def enter():
     global chimmy, background, map_data, map_next_data, stage1,stage_next, position, monster, monster_team, chimmy_dead, dragon
-    global main_bgm, clear, firewall, firewall_team
+    global main_bgm, clear, firewall, firewall_team, cheat
     Map.DownCnt = 0
     Monster.mon_num = 0
     FireWall.firewall_num = 0
@@ -589,6 +598,7 @@ def enter():
     firewall_team = []
     chimmy_dead = False
     clear = False
+    cheat = False
 
     background = BackGround()
     position = create_pos()
@@ -623,7 +633,7 @@ def resume():
     pass
 
 def handle_events():
-    global chimmy, map_data, bb_show
+    global chimmy, map_data, bb_show, cheat
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -638,6 +648,8 @@ def handle_events():
                 Chimmy.speed -= 2
         elif event.type == SDL_KEYDOWN and event.key == SDLK_b:
             bb_show = not bb_show
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_m:
+            cheat = not cheat
         else:
             chimmy.handle_event(event)
 
@@ -687,24 +699,27 @@ def update():
                             Chimmy.score += 5
                             print("collide Monster Die ! \n")
                     else:
-                        chimmy.state = Chimmy.DEAD
-                        chimmy.frame_h = Chimmy.DEAD
-                        chimmy_dead = True
-                        print("collide ! \n")
+                        if cheat == False:
+                            chimmy.state = Chimmy.DEAD
+                            chimmy.frame_h = Chimmy.DEAD
+                            chimmy_dead = True
+                            print("collide ! \n")
             #chimmy and dragon fire
             if collide(chimmy, dragon):
-                chimmy.state = Chimmy.DEAD
-                chimmy.frame_h = Chimmy.DEAD
-                chimmy_dead = True
-                print("collide Fire ! \n")
+                if cheat == False:
+                    chimmy.state = Chimmy.DEAD
+                    chimmy.frame_h = Chimmy.DEAD
+                    chimmy_dead = True
+                    print("collide Fire ! \n")
             #chimmy and firewall fire
             for f in firewall_team:
                 if f.fire_show == True:
                     if collide(chimmy, f):
-                        chimmy.state = Chimmy.DEAD
-                        chimmy.frame_h = Chimmy.DEAD
-                        chimmy_dead = True
-                        print("collide firewall Fire ! \n")
+                        if cheat == False:
+                            chimmy.state = Chimmy.DEAD
+                            chimmy.frame_h = Chimmy.DEAD
+                            chimmy_dead = True
+                            print("collide firewall Fire ! \n")
 
 
 def draw_scene():
