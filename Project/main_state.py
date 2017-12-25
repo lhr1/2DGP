@@ -14,23 +14,30 @@ from Position import Position
 name = "MainState"
 
 background = None
+bb_show = False
+main_bgm = None
+#chimmy
 chimmy = None
+chimmy_dead = False
+clear  = False
+#dragon
+dragon = None
+#map
 map_data = None
 stage1 = None
 position = None
+#monster
 monster_team = []
 monster = None
-chimmy_dead = False
-bb_show = False
-dragon = None
-main_bgm = None
-clear  = False
+#firewall
+firewall_team = []
+
 
 
 class Map:
     global map_data, map_next_data, stage1, stage_next, position, monster_team
     imgSTONE, imgWALL, imgHINDRANCE, imgEMPTY, imgCLEAR = None, None, None, None, None
-    STONE, WALL, HINDRANCE, MONSTER_K, MONSTER_T, EMPTY, CLEAR = 0, 1, 2, 3, 4, 5, 6
+    STONE, WALL, HINDRANCE, MONSTER_K, MONSTER_T, EMPTY, CLEAR, FIREWALL = 0, 1, 2, 3, 4, 5, 6, 7
     LINEMAX = 7
     ROWMAX = 110
 
@@ -109,7 +116,6 @@ class Monster:
     cnt_max_t = 40
     cnt_max_k = 10
 
-
     def draw_k(self):
         for num in range(Monster.mon_num):
             if monster_team[num].type == Map.MONSTER_K:
@@ -130,19 +136,16 @@ class Monster:
                                                          , monster_team[num].dir * Map.BLOCKSIZE
                                                          , Map.BLOCKSIZE, Map.BLOCKSIZE, monster_team[num].x, monster_team[num].y + Map.DownCnt)
 
-
     def update_k(self):
         for num in range(Monster.mon_num):
             if monster_team[num].type == Map.MONSTER_K:
                 self.move(num)
-
 
     def update_t(self):
         for num in range(Monster.mon_num):
             if monster_team[num].type == Map.MONSTER_T \
                     and monster_team[num].pos_row == Chimmy.pos_line:
                 self.move(num)
-
 
     def move(self, num):
         if monster_team[num].dir == 0:       #right
@@ -186,7 +189,6 @@ class Monster:
                 if map_data[monster_team[num].pos_row].state[monster_team[num].pos_line + 1] !=  Map.EMPTY:
                     monster_team[num].dir = 1
 
-
     def get_bb(self):
         return self.x - (Map.BLOCKSIZE / 3), self.y - (Map.BLOCKSIZE / 2) + Map.DownCnt\
             , self.x + (Map.BLOCKSIZE / 3), self.y + (Map.BLOCKSIZE / 2) + Map.DownCnt
@@ -194,10 +196,63 @@ class Monster:
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
-
     def die(self):
         self.die_sound.play()
 
+
+class FireWall:
+    global map_data, firewall_team, position
+    imgFIREWALL, imgFIRE = None, None
+    firewall_num = 0
+    SPEED = 4
+    FIRE_SIZE = 60
+
+    def __init__(self):
+        if FireWall.imgFIREWALL == None:
+            FireWall.imgFIREWALL = load_image('resource/firetile2.png')
+        if FireWall.imgFIRE == None:
+            FireWall.imgFIRE = load_image('resource/firetile_fire.png')
+        self.x, self.y = 0, 0
+        self.fire_x, self.fire_y = self.x, self.y
+        self.pos_row, self.pos_line = 0, 0
+        self.fire_cnt = 0
+        self.fire_speed = random.randint(1, 10)
+        self.fire_show = False
+
+    def draw(self):
+        for num in range(FireWall.firewall_num):
+            firewall_team[num].imgFIREWALL.draw(firewall_team[num].x
+                                                , firewall_team[num].y + Map.DownCnt
+                                                , Map.BLOCKSIZE, Map.BLOCKSIZE)
+            if firewall_team[num].fire_cnt == 0:
+                firewall_team[num].fire_x = firewall_team[num].x - (Map.BLOCKSIZE / 2)
+                firewall_team[num].fire_show = False
+            elif 200 < firewall_team[num].fire_cnt:
+                firewall_team[num].fire_show = True
+            firewall_team[num].fire_cnt += firewall_team[num].fire_speed
+            if firewall_team[num].fire_show == True:
+                firewall_team[num].fire_x -= firewall_team[num].SPEED
+                if firewall_team[num].fire_x <= position[1].x:
+                    firewall_team[num].fire_cnt = 0
+                firewall_team[num].fire_y = firewall_team[num].y + Map.DownCnt
+                firewall_team[num].imgFIRE.draw(firewall_team[num].fire_x
+                                            , firewall_team[num].fire_y
+                                            , FireWall.FIRE_SIZE, FireWall.FIRE_SIZE - 10)
+
+
+    def update(self):
+        for num in range(FireWall.firewall_num):
+            pass
+
+
+    def get_bb(self):
+        return self.x - (Map.BLOCKSIZE / 2), self.y - (Map.BLOCKSIZE / 2)\
+             , self.x + (Map.BLOCKSIZE / 2), self.y + (Map.BLOCKSIZE / 2)
+        #return self.fire_x - (FireWall.SIZE_FIRE_X / 2), self.fire_y - (FireWall.SIZE_FIRE_Y / 2)\
+        #     , self.fire_x + (FireWall.SIZE_FIRE_X / 2), self.fire_y + (FireWall.SIZE_FIRE_Y / 2)
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
 
 class Dragon:
@@ -326,7 +381,6 @@ class Dragon:
 
     def atk(self):
         self.atk_sound.play()
-
 
 
 class Chimmy:
@@ -527,10 +581,12 @@ class Chimmy:
 
 def enter():
     global chimmy, background, map_data, map_next_data, stage1,stage_next, position, monster, monster_team, chimmy_dead, dragon
-    global main_bgm, clear
+    global main_bgm, clear, firewall, firewall_team
     Map.DownCnt = 0
     Monster.mon_num = 0
+    FireWall.firewall_num = 0
     monster_team = []
+    firewall_team = []
     chimmy_dead = False
     clear = False
 
@@ -540,6 +596,7 @@ def enter():
     stage1 = Map()
     chimmy = Chimmy()
     monster = Monster()
+    firewall = FireWall()
     dragon = Dragon()
 
     main_bgm = load_music('resource/bgm/Go Go.mp3')
@@ -547,7 +604,7 @@ def enter():
     main_bgm.repeat_play()
 
 def exit():
-    global chimmy, background, map_data, stage1, position, monster_team, dragon
+    global chimmy, background, map_data, stage1, position, monster_team, dragon, firewall_team
     global main_bgm
     del(chimmy)
     del(background)
@@ -555,6 +612,7 @@ def exit():
     del(stage1)
     del(position)
     del(monster_team)
+    del(firewall_team)
     del(dragon)
     main_bgm.stop()
 
@@ -597,6 +655,7 @@ def update():
         monster.update_k()
         monster.update_t()
         dragon.update()
+        firewall.update()
 
         # collide check
         if chimmy.state != Chimmy.DEAD:
@@ -651,6 +710,7 @@ def draw_scene():
     chimmy.draw()
     monster.draw_k()
     monster.draw_t()
+    firewall.draw()
 
 
 
@@ -666,6 +726,8 @@ def draw():
             m.draw_bb()
         if Dragon.state == Dragon.ATK:
             dragon.draw_bb()
+        for f in firewall_team:
+            f.draw_bb()
 
     update_canvas()
 
@@ -681,6 +743,7 @@ def create_map():
         "T": Map.MONSTER_T,
         "E": Map.EMPTY,
         "C": Map.CLEAR,
+        "F": Map.FIREWALL,
         "N": None
     }
 
@@ -705,10 +768,17 @@ def create_map():
             stage.randnum.append(random.randint(0, 4))
 
             if map_data[Map.rowcnt][i] == "K":
-                append_monster(position[Map.rowcnt * (Map.LINEMAX) + i].x, position[Map.rowcnt * (Map.LINEMAX) + i].y, Map.MONSTER_K, Map.rowcnt, i)
+                append_monster(position[Map.rowcnt * (Map.LINEMAX) + i].x
+                               , position[Map.rowcnt * (Map.LINEMAX) + i].y
+                               , Map.MONSTER_K, Map.rowcnt, i)
             elif map_data[Map.rowcnt][i] == "T":
-                append_monster(position[Map.rowcnt * (Map.LINEMAX) + i].x, position[Map.rowcnt * (Map.LINEMAX) + i].y, Map.MONSTER_T, Map.rowcnt, i)
-
+                append_monster(position[Map.rowcnt * (Map.LINEMAX) + i].x
+                               , position[Map.rowcnt * (Map.LINEMAX) + i].y
+                               , Map.MONSTER_T, Map.rowcnt, i)
+            elif map_data[Map.rowcnt][i] == "F":
+                append_firewall(position[Map.rowcnt * (Map.LINEMAX) + i].x
+                               , position[Map.rowcnt * (Map.LINEMAX) + i].y
+                               , Map.rowcnt, i)
         map.append(stage)
         Map.rowcnt += 1
     return map
@@ -742,6 +812,15 @@ def append_monster(d_x, d_y, d_type, d_pos_row, d_pos_line):
     d_monster.pos_line = d_pos_line
     monster_team.append(d_monster)
     Monster.mon_num += 1
+
+def append_firewall(d_x, d_y, d_pos_row, d_pos_line):
+    d_firewall = FireWall()
+    d_firewall.x = d_x
+    d_firewall.y = d_y
+    d_firewall.pos_row = d_pos_row
+    d_firewall.pos_line = d_pos_line
+    firewall_team.append(d_firewall)
+    FireWall.firewall_num += 1
 
 
 def collide(a, b):
