@@ -246,14 +246,13 @@ class FireWall:
 
 
     def get_bb(self):
-        return self.x - (Map.BLOCKSIZE / 2), self.y - (Map.BLOCKSIZE / 2)\
-             , self.x + (Map.BLOCKSIZE / 2), self.y + (Map.BLOCKSIZE / 2)
-        #return self.fire_x - (FireWall.SIZE_FIRE_X / 2), self.fire_y - (FireWall.SIZE_FIRE_Y / 2)\
-        #     , self.fire_x + (FireWall.SIZE_FIRE_X / 2), self.fire_y + (FireWall.SIZE_FIRE_Y / 2)
+        #return self.x - (Map.BLOCKSIZE / 2), self.y - (Map.BLOCKSIZE / 2)\
+        #     , self.x + (Map.BLOCKSIZE / 2), self.y + (Map.BLOCKSIZE / 2)
+        return self.fire_x - (FireWall.FIRE_SIZE / 2), self.fire_y - (FireWall.FIRE_SIZE / 3) \
+            , self.fire_x + (FireWall.FIRE_SIZE / 2), self.fire_y + (FireWall.FIRE_SIZE / 3)
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
-
 
 class Dragon:
     image = []
@@ -697,7 +696,14 @@ def update():
                 chimmy.frame_h = Chimmy.DEAD
                 chimmy_dead = True
                 print("collide Fire ! \n")
-
+            #chimmy and firewall fire
+            for f in firewall_team:
+                if f.fire_show == True:
+                    if collide(chimmy, f):
+                        chimmy.state = Chimmy.DEAD
+                        chimmy.frame_h = Chimmy.DEAD
+                        chimmy_dead = True
+                        print("collide firewall Fire ! \n")
 
 
 def draw_scene():

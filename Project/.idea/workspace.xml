@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="624" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="385" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="623" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="384" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="36" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="89" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="644" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="643" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="138" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="257" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="452" />
-    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="556" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="256" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="451" />
+    <bookmark url="file://$PROJECT_DIR$/main_state.py" line="555" />
     <bookmark url="file://$PROJECT_DIR$/main_state.py" line="202" />
   </component>
   <component name="ChangeListManager">
@@ -23,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="main_state.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main_state.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="603" column="26" lean-forward="true" selection-start-line="603" selection-start-column="26" selection-end-line="603" selection-end-column="26" />
+            <state relative-caret-position="278">
+              <caret line="220" column="0" lean-forward="true" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#3311#9121#0" expanded="false" />
@@ -39,21 +39,22 @@
                 <element signature="e#8841#9008#0" expanded="false" />
                 <element signature="e#9041#9071#0" expanded="false" />
                 <element signature="e#9100#9121#0" expanded="false" />
-                <element signature="e#16602#25572#0" expanded="false" />
-                <element signature="e#17770#18843#0" expanded="false" />
-                <element signature="e#18876#24989#0" expanded="false" />
-                <element signature="e#32042#32409#0" expanded="false" />
-                <element signature="e#33107#33375#0" expanded="false" />
+                <element signature="e#11512#16572#0" expanded="false" />
+                <element signature="e#16593#25563#0" expanded="false" />
+                <element signature="e#17761#18834#0" expanded="false" />
+                <element signature="e#18867#24980#0" expanded="false" />
+                <element signature="e#32396#32763#0" expanded="false" />
+                <element signature="e#33461#33729#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stage1.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="stage1.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stage1.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="34" lean-forward="false" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+            <state relative-caret-position="252">
+              <caret line="14" column="41" lean-forward="true" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -324,11 +325,12 @@
             <element signature="e#8841#9008#0" expanded="false" />
             <element signature="e#9041#9071#0" expanded="false" />
             <element signature="e#9100#9121#0" expanded="false" />
-            <element signature="e#16602#25572#0" expanded="false" />
-            <element signature="e#17770#18843#0" expanded="false" />
-            <element signature="e#18876#24989#0" expanded="false" />
-            <element signature="e#32042#32409#0" expanded="false" />
-            <element signature="e#33107#33375#0" expanded="false" />
+            <element signature="e#11512#16572#0" expanded="false" />
+            <element signature="e#16593#25563#0" expanded="false" />
+            <element signature="e#17761#18834#0" expanded="false" />
+            <element signature="e#18867#24980#0" expanded="false" />
+            <element signature="e#32396#32763#0" expanded="false" />
+            <element signature="e#33461#33729#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -565,10 +567,18 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/stage1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="41" lean-forward="true" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="603" column="26" lean-forward="true" selection-start-line="603" selection-start-column="26" selection-end-line="603" selection-end-column="26" />
+        <state relative-caret-position="278">
+          <caret line="220" column="0" lean-forward="true" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#3311#9121#0" expanded="false" />
@@ -580,20 +590,13 @@
             <element signature="e#8841#9008#0" expanded="false" />
             <element signature="e#9041#9071#0" expanded="false" />
             <element signature="e#9100#9121#0" expanded="false" />
-            <element signature="e#16602#25572#0" expanded="false" />
-            <element signature="e#17770#18843#0" expanded="false" />
-            <element signature="e#18876#24989#0" expanded="false" />
-            <element signature="e#32042#32409#0" expanded="false" />
-            <element signature="e#33107#33375#0" expanded="false" />
+            <element signature="e#11512#16572#0" expanded="false" />
+            <element signature="e#16593#25563#0" expanded="false" />
+            <element signature="e#17761#18834#0" expanded="false" />
+            <element signature="e#18867#24980#0" expanded="false" />
+            <element signature="e#32396#32763#0" expanded="false" />
+            <element signature="e#33461#33729#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stage1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="34" lean-forward="false" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
