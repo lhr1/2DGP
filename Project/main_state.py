@@ -569,7 +569,6 @@ class Chimmy:
                     Dragon.state = Dragon.WAKEUP
                     Dragon.movecnt = 0
                     Dragon.move_state = Dragon.M_UP
-                    #dragon.x = 800 + 180
 
     def draw(self):
         self.image.clip_draw(self.frame * Chimmy.size, self.frame_h * Chimmy.size, Chimmy.size, Chimmy.size, self.x, self.y)
